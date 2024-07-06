@@ -1,5 +1,6 @@
+import { faker } from '@faker-js/faker';
 import { Stack } from 'expo-router';
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Pressable, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import Animated, {
   FadeIn,
@@ -18,7 +19,11 @@ import { sharedStyles } from '~/styles/sharedStyles';
 const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
 
 const StaggeredList = () => {
-  const [emailList, setEmailList] = React.useState<string[]>([]);
+  const [emailList, setEmailList] = React.useState<string[]>(
+    Array(5)
+      .fill('')
+      .map(() => faker.internet.email())
+  );
   const [isInitialLoad, setIsInitialLoad] = React.useState(true);
 
   const scrollViewRef = React.useRef<ScrollView>(null);
@@ -29,21 +34,8 @@ const StaggeredList = () => {
     return undefined;
   };
 
-  useEffect(() => {
-    const fetchEmails = async () => {
-      const response = await fetch('https://randomuser.me/api?results=5');
-      const users = (await response.json()) as { results: { email: string }[] };
-      const emails = users.results.map((user) => user.email);
-      setEmailList(emails);
-    };
-
-    fetchEmails();
-  }, []);
-
-  const addEmail = async () => {
-    const response = await fetch('https://randomuser.me/api');
-    const newEmail = (await response.json()) as { results: { email: string }[] };
-    setEmailList((currentEmailList) => [...currentEmailList, newEmail.results[0].email]);
+  const addEmail = () => {
+    setEmailList((currentEmailList) => [...currentEmailList, faker.internet.email()]);
   };
 
   const removeEmail = (email: string) => {
