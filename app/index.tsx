@@ -13,6 +13,7 @@ import Animated, {
 import { data } from '~/assets/fake';
 import { Button } from '~/components/Button';
 import { Container } from '~/components/Container';
+import { sharedStyles } from '~/styles/sharedStyles';
 
 const AnimatedInput = Animated.createAnimatedComponent(TextInput);
 
@@ -48,36 +49,67 @@ export default function Home() {
     <>
       <Stack.Screen options={{ title: 'Home' }} />
       <Container>
-        <ScrollView style={styles.flex1}>
-          <View style={styles.boxContainer}>
-            <Animated.View style={animatedBoxStyles} />
-          </View>
+        <ScrollView
+          style={sharedStyles.flex1}
+          contentContainerStyle={sharedStyles.containerPaddingHorizontal}>
+          {/**
+           *
+           * Shared Value Animation
+           *
+           * */}
+          <>
+            <View style={styles.boxContainer}>
+              <Animated.View style={animatedBoxStyles} />
+            </View>
 
-          <Button onPress={startAnimation} title="Start Animation" />
+            <View style={sharedStyles.containerPaddingVertical}>
+              <AnimatedInput style={[styles.input, animatedInputStyles]} />
+            </View>
 
-          <View style={{ padding: 16 }}>
-            <AnimatedInput style={[styles.input, animatedInputStyles]} />
-          </View>
+            <View style={sharedStyles.containerPaddingVertical}>
+              <Button onPress={startAnimation} title="Start Animation" />
+            </View>
+          </>
 
-          {data.map((item) => (
-            <Link key={item.id} href={`/details/${item.id}`} asChild>
-              <TouchableOpacity style={styles.listItem}>
-                <Animated.Image
-                  // NOTICE: !!! EXPERIMENTAL !!! Shared Element Transition animates transition from one
-                  // component on screen A to another component on screen B.
-                  // sharedTransitionTag={`item-image-${item.id}`}
-                  // sharedTransitionStyle={imageSharedTransition}
-                  source={{ uri: item.image }}
-                  style={styles.listItemImage}
-                />
+          {/**
+           *
+           * Staggered List Animation
+           *
+           * */}
+          <>
+            <View style={sharedStyles.containerPaddingVertical}>
+              <Link href="/list" asChild>
+                <Button title="Go to Staggered List" />
+              </Link>
+            </View>
+          </>
 
-                <View style={styles.listItemContent}>
-                  <Text style={styles.listItemTitle}>{item.title}</Text>
-                  <Text style={styles.listItemPrice}>${item.price.toFixed(2)}</Text>
-                </View>
-              </TouchableOpacity>
-            </Link>
-          ))}
+          {/**
+           *
+           * Shared Element Transition
+           *
+           * */}
+          <>
+            {data.map((item) => (
+              <Link key={item.id} href={`/details/${item.id}`} asChild>
+                <TouchableOpacity style={styles.listItem}>
+                  <Animated.Image
+                    // NOTICE: !!! EXPERIMENTAL !!! Shared Element Transition animates transition from one
+                    // component on screen A to another component on screen B.
+                    // sharedTransitionTag={`item-image-${item.id}`}
+                    // sharedTransitionStyle={imageSharedTransition}
+                    source={{ uri: item.image }}
+                    style={styles.listItemImage}
+                  />
+
+                  <View style={styles.listItemContent}>
+                    <Text style={styles.listItemTitle}>{item.title}</Text>
+                    <Text style={styles.listItemPrice}>${item.price.toFixed(2)}</Text>
+                  </View>
+                </TouchableOpacity>
+              </Link>
+            ))}
+          </>
         </ScrollView>
       </Container>
     </>
@@ -85,7 +117,6 @@ export default function Home() {
 }
 
 const styles = StyleSheet.create({
-  flex1: { flex: 1 },
   boxContainer: {
     width: '100%',
     height: 300,
@@ -99,7 +130,6 @@ const styles = StyleSheet.create({
     borderRadius: 18,
   },
   listItem: {
-    paddingHorizontal: 20,
     paddingVertical: 10,
     flexDirection: 'row',
     alignItems: 'center',
