@@ -1,9 +1,11 @@
 import { faker } from '@faker-js/faker';
 import { Link, Stack } from 'expo-router';
-import { ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import Animated, {
   Easing,
+  useAnimatedRef,
   useAnimatedStyle,
+  useScrollViewOffset,
   useSharedValue,
   withSpring,
   withTiming,
@@ -45,11 +47,20 @@ export default function Home() {
     color.value = faker.color.rgb();
   };
 
+  // NOTICE: useAnimatedRef is a hook that returns a ref object that can be used to reference an Animated component.
+  const scrollViewRef = useAnimatedRef<Animated.ScrollView>();
+  // NOTICE: useScrollViewOffset is a hook that returns the current scroll position of an AnimatedScrollView.
+  const scrollY = useScrollViewOffset(scrollViewRef);
+  const scrollButtonStyle = useAnimatedStyle(() => ({
+    opacity: withTiming(scrollY.value > 100 ? 1 : 0, { duration: 400 }),
+  }));
+
   return (
     <>
       <Stack.Screen options={{ title: 'Home' }} />
       <Container>
-        <ScrollView
+        <Animated.ScrollView
+          ref={scrollViewRef}
           style={sharedStyles.flex1}
           contentContainerStyle={sharedStyles.containerPaddingHorizontal}>
           {/**
@@ -110,7 +121,16 @@ export default function Home() {
               </Link>
             ))}
           </>
-        </ScrollView>
+        </Animated.ScrollView>
+
+        {/**
+         *
+         * Animate on Scroll
+         *
+         * */}
+        <Animated.View style={[scrollButtonStyle, { position: 'absolute', bottom: 48, right: 20 }]}>
+          <Button onPress={() => {}} title="AnimOnScroll" />
+        </Animated.View>
       </Container>
     </>
   );
