@@ -1,14 +1,6 @@
 import { faker } from '@faker-js/faker';
 import { Link, Stack } from 'expo-router';
-import {
-  Image,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import { ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import Animated, {
   Easing,
   useAnimatedStyle,
@@ -17,6 +9,7 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated';
 
+// import { imageSharedTransition } from '~/animations/ImageSharedTransition';
 import { data } from '~/assets/fake';
 import { Button } from '~/components/Button';
 import { Container } from '~/components/Container';
@@ -69,7 +62,15 @@ export default function Home() {
           {data.map((item) => (
             <Link key={item.id} href={`/details/${item.id}`} asChild>
               <TouchableOpacity style={styles.listItem}>
-                <Image source={{ uri: item.image }} style={styles.listItemImage} />
+                <Animated.Image
+                  // NOTICE: !!! EXPERIMENTAL !!! Shared Element Transition animates transition from one
+                  // component on screen A to another component on screen B.
+                  // sharedTransitionTag={`item-image-${item.id}`}
+                  // sharedTransitionStyle={imageSharedTransition}
+                  source={{ uri: item.image }}
+                  style={styles.listItemImage}
+                />
+
                 <View style={styles.listItemContent}>
                   <Text style={styles.listItemTitle}>{item.title}</Text>
                   <Text style={styles.listItemPrice}>${item.price.toFixed(2)}</Text>

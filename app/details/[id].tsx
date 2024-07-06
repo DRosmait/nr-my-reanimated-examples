@@ -1,18 +1,10 @@
 import { Stack, useLocalSearchParams } from 'expo-router';
-import { Image, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import Animated, { FadeInDown } from 'react-native-reanimated';
 
+// import { imageSharedTransition } from '~/animations/ImageSharedTransition';
 import { data } from '~/assets/fake';
 import { Container } from '~/components/Container';
-
-// const createIncrementer = (initialValue: number, increment: number) => {
-//   return function* incrementer(initialValue: number, increment: number) {
-//     while (true) {
-//       yield initialValue;
-//       initialValue += increment;
-//     }
-//   };
-// };
 
 function* incrementer(initialValue: number, increment: number) {
   while (true) {
@@ -21,12 +13,12 @@ function* incrementer(initialValue: number, increment: number) {
   }
 }
 
-const delayIncrementer = incrementer(300, 150);
-
 export default function Details() {
   const { id } = useLocalSearchParams<{ id: string }>();
 
   const item = data.find((item) => !!id && item.id === parseInt(id, 10));
+
+  const delayIncrementer = incrementer(200, 150);
 
   if (!item) {
     return <Text>Item not found</Text>;
@@ -37,11 +29,21 @@ export default function Details() {
       <Stack.Screen options={{ title: 'Details' }} />
       <Container>
         <ScrollView style={styles.flex1}>
-          <Image source={{ uri: item.image }} style={styles.image} />
+          <Animated.Image
+            // NOTICE: !!! EXPERIMENTAL !!! Shared Element Transition animates transition from one
+            // component on screen A to another component on screen B.
+            // sharedTransitionTag={`item-image-${item.id}`}
+            // sharedTransitionStyle={imageSharedTransition}
+            entering={FadeInDown.delay(delayIncrementer.next().value ?? 0).duration(500)}
+            source={{ uri: item.image }}
+            style={styles.image}
+          />
 
           <View style={styles.contentConainer}>
             <Animated.View
               style={styles.titlePriceContainer}
+              // NOTICE: `entering` is a prop that we use to animate the component when it enters the screen.
+              // NOTICE: FadeInDown is a predefined animation from Reanimated that fades in the component from the top.
               entering={FadeInDown.delay(delayIncrementer.next().value ?? 0).duration(500)}>
               <Text style={styles.titleText}>{item.title}</Text>
               <Text style={styles.priceText}>${item.price.toFixed(2)}</Text>
