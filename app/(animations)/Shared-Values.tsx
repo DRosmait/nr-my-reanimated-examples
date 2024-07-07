@@ -21,6 +21,7 @@ export default function SharedValues() {
   const width = useSharedValue(100);
   const height = useSharedValue(100);
   const color = useSharedValue('red');
+  const opacity = useSharedValue(1);
 
   const animatedBoxStyles = useAnimatedStyle(() => ({
     // NOTICE: withSpring and withTiming are functions that start animations.
@@ -29,6 +30,9 @@ export default function SharedValues() {
     backgroundColor: withTiming(color.value, {
       duration: 500,
       easing: Easing.bezier(0.25, 0.1, 0.25, 1),
+    }),
+    opacity: withTiming(opacity.value, {
+      duration: 500,
     }),
   }));
 
@@ -41,6 +45,10 @@ export default function SharedValues() {
     width.value = faker.number.int({ min: 30, max: 300 });
     height.value = faker.number.int({ min: 30, max: 300 });
     color.value = faker.color.rgb();
+  };
+
+  const toggleOpacity = () => {
+    opacity.value = opacity.value === 0 ? 1 : 0;
   };
 
   return (
@@ -66,6 +74,9 @@ export default function SharedValues() {
 
             <View style={sharedStyles.containerPaddingVertical}>
               <Button onPress={startAnimation} title="Start Animation" />
+            </View>
+            <View style={sharedStyles.containerPaddingVertical}>
+              <Button onPress={toggleOpacity} title="Toggle opacity" />
             </View>
           </>
         </ScrollView>
