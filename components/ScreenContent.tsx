@@ -1,38 +1,47 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { Link } from 'expo-router';
+import React from 'react';
+import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
-import EditScreenInfo from './EditScreenInfo';
+import { animationNames } from '~/data/animationNames';
+import { parseAnimationName } from '~/helpers/parseAnimationName';
+import { sharedStyles } from '~/styles/sharedStyles';
 
-type ScreenContentProps = {
-  title: string;
-  path: string;
-  children?: React.ReactNode;
-};
-
-export const ScreenContent = ({ title, path, children }: ScreenContentProps) => {
+export const ScreenContent = () => {
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>{title}</Text>
-      <View style={styles.separator} />
-      <EditScreenInfo path={path} />
-      {children}
-    </View>
+    <ScrollView style={sharedStyles.flex1}>
+      {animationNames.map((name) => (
+        <Link href={`/(animations)/${name}`} asChild key={name}>
+          <TouchableOpacity>
+            <View
+              style={[
+                styles.animationItemWrapper,
+                sharedStyles.containerPaddingVertical,
+                sharedStyles.containerPaddingHorizontal,
+              ]}>
+              <Text style={styles.animationItemText} ellipsizeMode="tail" numberOfLines={1}>
+                {parseAnimationName(name)}
+              </Text>
+            </View>
+          </TouchableOpacity>
+        </Link>
+      ))}
+    </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    alignItems: 'center',
-    flex: 1,
-    justifyContent: 'center',
+  paddingVertical: {
+    paddingVertical: 20,
   },
-  separator: {
-    backgroundColor: '#d1d5db',
-    height: 1,
-    marginVertical: 30,
-    width: '80%',
+  paddingHorizontal: {
+    paddingHorizontal: 20,
   },
-  title: {
-    fontSize: 20,
-    fontWeight: 'bold',
+  animationItemWrapper: {
+    borderBottomWidth: 1,
+    borderBottomColor: 'lightgray',
+  },
+  animationItemText: {
+    fontSize: 18,
+    fontWeight: '600',
   },
 });
