@@ -3,4 +3,5 @@ export const animationNames = [
   'Animate-On-Scroll',
   'Staggered-List-Enter-Exit-Animation',
   'Bottom-Sheet',
+  'FlexBox-Layout-Animation',
 ];
