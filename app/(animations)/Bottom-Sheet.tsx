@@ -1,17 +1,7 @@
-import { faker } from '@faker-js/faker';
 import { Stack } from 'expo-router';
 import React from 'react';
-import { Pressable, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import Animated, {
-  FadeIn,
-  FadeInDown,
-  FadeInUp,
-  FadeOut,
-  LinearTransition,
-  SlideInDown,
-  SlideOutDown,
-  SlideOutLeft,
-} from 'react-native-reanimated';
+import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import Animated, { FadeIn, FadeOut, SlideInDown, SlideOutDown } from 'react-native-reanimated';
 
 import { Button } from '~/components/Button';
 import { sharedStyles } from '~/styles/sharedStyles';
@@ -19,31 +9,6 @@ import { sharedStyles } from '~/styles/sharedStyles';
 const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
 
 const BottomSheet = () => {
-  const [emailList, setEmailList] = React.useState<string[]>(
-    Array(5)
-      .fill('')
-      .map(() => faker.internet.email())
-  );
-  const [isInitialLoad, setIsInitialLoad] = React.useState(true);
-
-  const scrollViewRef = React.useRef<ScrollView>(null);
-
-  const getItemAnimation = (index: number) => {
-    if (isInitialLoad && index < 20) return FadeInUp.delay((index + 1) * 200).duration(400);
-    if (!isInitialLoad) return FadeInDown.duration(500);
-    return undefined;
-  };
-
-  const addEmail = () => {
-    setEmailList((currentEmailList) => [...currentEmailList, faker.internet.email()]);
-  };
-
-  const removeEmail = (email: string) => {
-    setEmailList((currentEmailList) =>
-      currentEmailList.filter((currentEmail) => currentEmail !== email)
-    );
-  };
-
   // Bottom Sheet
   const [bottomSheetVisible, setBottomSheetVisible] = React.useState(false);
   const showBottomSheet = () => setBottomSheetVisible(true);
@@ -87,20 +52,6 @@ const BottomSheet = () => {
 export default BottomSheet;
 
 const styles = StyleSheet.create({
-  emailItem: {
-    paddingHorizontal: 18,
-    paddingVertical: 16,
-    backgroundColor: '#3155c1',
-    borderRadius: 10,
-    marginVertical: 10,
-    marginHorizontal: 20,
-    padding: 10,
-    elevation: 2,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 4 },
-    shadowRadius: 5,
-    alignItems: 'center',
-  },
   bottomSheetBackdrop: {
     backgroundColor: 'rgba(0,0,0,0.5)',
     zIndex: 1,
