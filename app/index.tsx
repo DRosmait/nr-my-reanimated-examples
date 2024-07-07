@@ -52,6 +52,7 @@ export default function Home() {
   // NOTICE: useScrollViewOffset is a hook that returns the current scroll position of an AnimatedScrollView.
   const scrollY = useScrollViewOffset(scrollViewRef);
   const scrollButtonStyle = useAnimatedStyle(() => ({
+    zIndex: scrollY.value > 100 ? 1 : -1,
     opacity: withTiming(scrollY.value > 100 ? 1 : 0, { duration: 400 }),
   }));
 
