@@ -5,4 +5,5 @@ export const animationNames = [
   'Bottom-Sheet',
   'FlexBox-Layout-Animation',
   'Transition-Rotate-Animation',
+  'Dark-Mode-Animation',
 ];
