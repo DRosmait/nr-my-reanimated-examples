@@ -6,4 +6,5 @@ export const animationNames = [
   'FlexBox-Layout-Animation',
   'Transition-Rotate-Animation',
   'Dark-Mode-Animation',
+  'Activity-Indicator-Animation',
 ];
