@@ -7,4 +7,5 @@ export const animationNames = [
   'Transition-Rotate-Animation',
   'Dark-Mode-Animation',
   'Activity-Indicator-Animation',
+  'Gesture-Move-Element',
 ];
