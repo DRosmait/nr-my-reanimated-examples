@@ -10,4 +10,5 @@ export const animationNames = [
   'Gesture-Move-Element',
   'Gesture-Move-and-Release-with-Spring',
   'Gesture-Move-and-Release-with-Decay',
+  'Gesture-Move-Multiple-Elements',
 ];
