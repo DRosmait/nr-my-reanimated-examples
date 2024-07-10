@@ -14,13 +14,12 @@ import { sharedStyles } from '~/styles/sharedStyles';
 
 const AnimatedImage = Animated.createAnimatedComponent(Image);
 
-const GestureMoveElement = () => {
+const GestureMoveandReleaseWithSpring = () => {
   const [assets = []] = useAssets([require('~/assets/images/chameleon.jpg')]);
 
   // Animation
   const isPressed = useSharedValue(false);
   const offset = useSharedValue({ x: 0, y: 0 });
-  const start = useSharedValue({ x: 0, y: 0 });
 
   const animatedStyle = useAnimatedStyle(() => {
     return {
@@ -38,10 +37,10 @@ const GestureMoveElement = () => {
       isPressed.value = true;
     })
     .onUpdate(({ translationX, translationY }) => {
-      offset.value = { x: start.value.x + translationX, y: start.value.y + translationY };
+      offset.value = { x: translationX, y: translationY };
     })
     .onEnd(() => {
-      start.value = { x: offset.value.x, y: offset.value.y };
+      offset.value = { x: withSpring(0), y: withSpring(0) };
     })
     .onFinalize(() => {
       isPressed.value = false;
@@ -51,7 +50,7 @@ const GestureMoveElement = () => {
     <>
       <Stack.Screen
         options={{
-          title: 'Gesture Move Element',
+          title: 'Gesture Move and Release with Spring',
         }}
       />
       <View
@@ -74,7 +73,7 @@ const GestureMoveElement = () => {
   );
 };
 
-export default GestureMoveElement;
+export default GestureMoveandReleaseWithSpring;
 
 const styles = StyleSheet.create({
   container: {

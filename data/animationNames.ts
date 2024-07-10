@@ -8,4 +8,6 @@ export const animationNames = [
   'Dark-Mode-Animation',
   'Activity-Indicator-Animation',
   'Gesture-Move-Element',
+  'Gesture-Move-and-Release-with-Spring',
+  'Gesture-Move-and-Release-with-Decay',
 ];
