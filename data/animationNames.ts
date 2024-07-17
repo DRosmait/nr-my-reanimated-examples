@@ -11,4 +11,5 @@ export const animationNames = [
   'Gesture-Move-and-Release-with-Spring',
   'Gesture-Move-and-Release-with-Decay',
   'Gesture-Move-Multiple-Elements',
+  'Tinder-Swipe-Animation',
 ];
