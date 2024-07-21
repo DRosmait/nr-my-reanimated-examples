@@ -13,4 +13,5 @@ export const animationNames = [
   'Gesture-Move-Multiple-Elements',
   'Gesture-Drag-to-Sort',
   'Tinder-Swipe-Animation',
+  'SVG-Circle-Pan-Animation',
 ];
