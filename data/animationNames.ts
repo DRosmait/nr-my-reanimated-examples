@@ -1,4 +1,5 @@
 export const animationNames = [
+  'SVG-Circular-Slider',
   'Shared-Values',
   'Animate-On-Scroll',
   'Staggered-List-Enter-Exit-Animation',
